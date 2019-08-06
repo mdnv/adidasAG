@@ -1,0 +1,69 @@
+<h1>
+    <% params.each do |key, value| %>
+        <% vi_key = 'GIỚI TÍNH' if key =='gender' %>
+        <% vi_key = 'LỨA TUỔI' if key =='age' %>
+        <% vi_key = 'DÒNG' if key =='franchise' %>
+        <% vi_key = 'NHÃN HIỆU' if key =='brand' %>
+        <% vi_key = 'MÔN' if key =='sports' %>
+        <% vi_key = 'LOẠI SẢN PHẨM' if key =='producttype' %>
+        <% vi_key = 'ĐỐI TÁC' if key =='partner' %>
+        <% vi_key = 'DANH MỤC' if key =='category' %>
+        <% vi_key = 'MI ADIDAS' if key =='miadidas' %>
+        <% vi_key = 'GIẢM GIÁ' if key =='sale' %>
+        <%=  value if value.present? and key != 'controller' and key != 'action' and key  != 'locale' and key != 'page'%>
+    <% end %>
+</h1>
+
+<%= paginate @products %><%= page_entries_info @products, entry_name: 'item' %>
+
+<table class="table">
+  <tr>
+    <th scope="col">id sản phẩm:</th>
+    <th scope="col">Tên Sản Phẩm:</th>
+    <th scope="col">Avatar:</th>
+    <th scope="col">Images:</th>
+    <th scope="col">Gender:</th>
+    <th scope="col">Giá bán:</th>
+    <th scope="col">Giá gốc:</th>
+    <th scope="col">Màu - color:</th>
+    <th scope="col">Dòng franchise:</th>
+    <th scope="col">Loại producttype:</th>
+    <th scope="col">Nhãn brand:</th>
+    <th scope="col">Danh mục category:</th>
+    <th scope="col">Môn sport:</th>
+    <th scope="col">sku:</th>
+    <th scope="col"> stock:</th>
+  </tr>
+
+  <% @products.each do |product| %>
+  <tr>
+    <td><%= product.id %></td>
+    <td><%= product.name %></td>
+    <td>
+      <% if product.variants.first.stock.zero? %>
+          Out of stock
+      <% else %>
+        <%= link_to 'Xem', "/products/#{product.id}?variant=#{product.variants.first.id}" %>
+        <%= image_tag product.variants.first.avatar, :height => "100",:width=>"100" %>
+      <% end %>
+    </td>
+    <td>
+        <% product.variants.first.images.each do |image| %>
+        <%= image_tag image , :height => "50",:width=>"50" %>
+        <% end %>
+    </td>
+    <td><%= product.gender.name %></td>
+    <td><%= product.variants.first.price %></td>
+    <td><%= product.variants.first.originalprice %></td>
+    <td><%= product.variants.first.color.name %></td>
+    <td><%= product.franchise_id ? product.franchise.name: '' %></td>
+    <td><%= product.producttype_id ? product.producttype.name: '' %></td>
+    <td><%= product.brand_id ? product.brand.name: '' %></td>
+    <td><%= product.category_id ? product.category.name: '' %></td>
+    <td><%= product.sport_id ? product.sport.name: '' %></td>
+    <td><%= product.variants.first.sku %></td>
+    <td><%= product.variants.first.stock %></td>
+</tr>
+<% end %>
+</table>
+<br>
