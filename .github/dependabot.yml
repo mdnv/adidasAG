@@ -1,0 +1,19 @@
+version: 2
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "22:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: rails
+    versions:
+    - 6.1.1
+    - 6.1.2.1
+  - dependency-name: listen
+    versions:
+    - 3.4.0
+  - dependency-name: webpacker
+    versions:
+    - 5.2.1
